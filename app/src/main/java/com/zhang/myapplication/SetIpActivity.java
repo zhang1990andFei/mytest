@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.provider.ContactsContract;
+import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
@@ -33,6 +34,9 @@ public class SetIpActivity extends Activity implements View.OnClickListener {
     private String sipserver_string;
     private String mqserver_string;
     private String webserver_string;
+    private String sipserver_portstring;
+    private String mqserver_portstring;
+    private String webserver_portstring;
     private TextView sure_btn;
     Thread myVolThread = null;
     Handler myHandler = new Handler() {
@@ -40,8 +44,7 @@ public class SetIpActivity extends Activity implements View.OnClickListener {
             switch (msg.what) {
                 case PROGRESS_CHANGED:
                     setVolum();
-                    /*sendEmptyMessageDelayed(PROGRESS_CHANGED, 200);*/
-                   // mAudioManager.setStreamVolume(AudioManager.STREAM_SYSTEM, currentVolume, AudioManager.FLAG_SHOW_UI);
+
                     break;
             }
         }
@@ -82,17 +85,29 @@ public class SetIpActivity extends Activity implements View.OnClickListener {
             webserver_string = sp.getParam(this, "webserver", "").toString();
             webserver_input.setText(webserver_string);
         }
+        if (sp.getParam(this, "sipserver_port", "").toString() != null) {
+            sipserver_portstring = sp.getParam(this, "sipserver_port", "").toString();
+            sipserverport_input.setText(sipserver_portstring);
+        }
+        if (sp.getParam(this, "mqserver_port", "").toString() != null) {
+            mqserver_portstring = sp.getParam(this, "mqserver_port", "").toString();
+            mqserverport_input.setText(mqserver_portstring);
+        }
+        if (sp.getParam(this, "webserver_port", "").toString() != null) {
+            webserver_portstring = sp.getParam(this, "webserver_port", "").toString();
+            webserverport_input.setText(webserver_portstring);
+        }
         volSeekBar = (SeekBar) findViewById(R.id.volume_seekbar);
         mVolume = (TextView) findViewById(R.id.volum_val);
         mAudioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
-
-        //setVolum();
         SeekBar.OnSeekBarChangeListener seekBarChangeListener = new SeekBar.OnSeekBarChangeListener() {
 
             public void onProgressChanged(SeekBar seekBar, int progress,
                                           boolean fromUser) {
                 // TODO Auto-generated method stub
-                mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, progress, 0);
+                mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, progress, AudioManager.FLAG_PLAY_SOUND|AudioManager.FLAG_SHOW_UI);
+
+              //  mAudioManager.setStreamVolume(AudioManager.STREAM_SYSTEM, progress, AudioManager.FLAG_SHOW_UI);
             }
 
             public void onStartTrackingTouch(SeekBar seekBar) {
@@ -150,13 +165,19 @@ public class SetIpActivity extends Activity implements View.OnClickListener {
     保存设置ip地址
      */
     private void saveSet() {
-        sipserver_string = sipserverip_input.getText().toString() + ":" + sipserverport_input.getText().toString();
-        mqserver_string = mqserverip_input.getText().toString() + ":" + mqserverport_input.getText().toString();
-        webserver_string = webserver_input.getText().toString() + ":" + webserverport_input.getText().toString();
+        sipserver_string = sipserverip_input.getText().toString();
+        mqserver_string = mqserverip_input.getText().toString();
+        webserver_string = webserver_input.getText().toString();
+        sipserver_portstring = sipserverport_input.getText().toString();
+        mqserver_portstring = mqserverport_input.getText().toString();
+        webserver_portstring = webserverport_input.getText().toString();
         if (!sipserverip_input.getText().toString().equals("") & !mqserverip_input.getText().toString().equals("") & !webserver_input.getText().toString().equals("") & !sipserverport_input.getText().toString().equals("") & !mqserverport_input.getText().toString().equals("") & !webserverport_input.getText().toString().equals("")) {
             sp.setParam(this, "sipserver", sipserver_string);
             sp.setParam(this, "mqserver", mqserver_string);
             sp.setParam(this, "webserver", webserver_string);
+            sp.setParam(this, "sipserver_port", sipserver_portstring);
+            sp.setParam(this, "mqserver_port", mqserver_portstring);
+            sp.setParam(this, "webserver_port", webserver_portstring);
             finish();
         } else {
             Toast.makeText(this, "请正确输入ip地址和端口号", Toast.LENGTH_SHORT).show();
