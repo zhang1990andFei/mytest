@@ -8,13 +8,15 @@
     <RelativeLayout
         android:id="@+id/set_title"
         android:layout_width="match_parent"
+        android:background="@color/gray_bg"
         android:layout_height="50dp">
 
         <ImageView
+            android:id="@+id/set_back"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginLeft="10dp"
-            android:background="@drawable/bg_back" />
+            android:background="@drawable/back" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -314,9 +316,12 @@
                     android:layout_height="30dp"
                     android:layout_marginLeft="15dp"
                     android:gravity="center"
-                    android:text="音量设置"
+                    android:text="通话音量设置"
                     android:textColor="@color/black" />
-
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/volume_img"/>
                 <SeekBar
                     android:id="@+id/volume_seekbar"
                     android:layout_width="220dp"
@@ -330,15 +335,15 @@
                     android:layout_marginLeft="15dp"
                     android:layout_marginRight="10dp"
                     android:gravity="center"
-                    android:text="12"
+                    android:text="0"
                     android:textColor="@color/black" />
-
 
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
                 android:orientation="horizontal">
+
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -347,21 +352,25 @@
                     android:gravity="center"
                     android:text="铃声音量设置"
                     android:textColor="@color/black" />
-
+                <ImageView
+                    android:id="@+id/mutereing_img"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/volume_img"/>
                 <SeekBar
-                    android:id="@+id/volume_ringseekbar"
+                    android:id="@+id/volume_sysseekbar"
                     android:layout_width="220dp"
                     android:layout_height="match_parent"
                     android:layout_gravity="center_vertical" />
 
                 <TextView
-                    android:id="@+id/volum_ringval"
+                    android:id="@+id/volum_sysval"
                     android:layout_width="wrap_content"
                     android:layout_height="30dp"
                     android:layout_marginLeft="15dp"
                     android:layout_marginRight="10dp"
                     android:gravity="center"
-                    android:text="12"
+                    android:text="0"
                     android:textColor="@color/black" />
 
 

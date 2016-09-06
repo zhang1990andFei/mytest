@@ -3,6 +3,7 @@ package com.zhang.myapplication;
 import android.app.Activity;
 import android.content.Context;
 import android.media.AudioManager;
+import android.media.Image;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -11,6 +12,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -20,10 +22,13 @@ import java.security.KeyRep;
 
 public class SetIpActivity extends Activity implements View.OnClickListener {
     protected static final int PROGRESS_CHANGED = 0x101;
-    private SeekBar volSeekBar;
+    private SeekBar volSeekBar;//通话音量
+    private SeekBar sysvolSeekBar;//系统音量
     private TextView mVolume;
+    private TextView sVolume;
     private AudioManager mAudioManager;
     private int maxVolume, currentVolume;
+    private int sysMaxVolme, sysCurrentVolme;
     private EditText sipserverip_input;
     private EditText mqserverip_input;
     private EditText webserver_input;
@@ -38,12 +43,26 @@ public class SetIpActivity extends Activity implements View.OnClickListener {
     private String mqserver_portstring;
     private String webserver_portstring;
     private TextView sure_btn;
-    Thread myVolThread = null;
+    private ImageView back;
+    private ImageView mutering;
+    private boolean isChanged = false;
+    //    Thread myVolThread = null;
+//    Thread mySysThread =null;
     Handler myHandler = new Handler() {
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case PROGRESS_CHANGED:
                     setVolum();
+
+                    break;
+            }
+        }
+    };
+    Handler mySysHandler = new Handler() {
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case PROGRESS_CHANGED:
+                    setSysVolum();
 
                     break;
             }
@@ -59,6 +78,10 @@ public class SetIpActivity extends Activity implements View.OnClickListener {
     }
 
     private void initView() {
+        back = (ImageView) findViewById(R.id.set_back);
+        back.setOnClickListener(this);
+        mutering = (ImageView) findViewById(R.id.mutereing_img);
+        mutering.setOnClickListener(this);
         sipserverip_input = (EditText) findViewById(R.id.sipserverip_edit);
         mqserverip_input = (EditText) findViewById(R.id.mqserverip_edit);
         webserver_input = (EditText) findViewById(R.id.webserverip_edit);
@@ -105,9 +128,9 @@ public class SetIpActivity extends Activity implements View.OnClickListener {
             public void onProgressChanged(SeekBar seekBar, int progress,
                                           boolean fromUser) {
                 // TODO Auto-generated method stub
-                mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, progress, AudioManager.FLAG_PLAY_SOUND|AudioManager.FLAG_SHOW_UI);
-
-              //  mAudioManager.setStreamVolume(AudioManager.STREAM_SYSTEM, progress, AudioManager.FLAG_SHOW_UI);
+                mAudioManager.setStreamVolume(AudioManager.STREAM_VOICE_CALL, progress, AudioManager.FLAG_PLAY_SOUND | AudioManager.FLAG_SHOW_UI);
+                new Thread(new MyVolThread()).start();
+                //  mAudioManager.setStreamVolume(AudioManager.STREAM_SYSTEM, progress, AudioManager.FLAG_SHOW_UI);
             }
 
             public void onStartTrackingTouch(SeekBar seekBar) {
@@ -123,17 +146,67 @@ public class SetIpActivity extends Activity implements View.OnClickListener {
         };
 
         volSeekBar.setOnSeekBarChangeListener(seekBarChangeListener);
-        new Thread(new myVolThread()).start();
+        //系统音量
+        sysvolSeekBar = (SeekBar) findViewById(R.id.volume_sysseekbar);
+        sVolume = (TextView) findViewById(R.id.volum_sysval);
+        SeekBar.OnSeekBarChangeListener sysseekBarChangeListener = new SeekBar.OnSeekBarChangeListener() {
+
+            public void onProgressChanged(SeekBar seekBar, int progress,
+                                          boolean fromUser) {
+                // TODO Auto-generated method stub
+                mAudioManager.setStreamVolume(AudioManager.STREAM_RING, progress, AudioManager.FLAG_PLAY_SOUND | AudioManager.FLAG_SHOW_UI);
+                mAudioManager.setStreamMute(AudioManager.STREAM_RING, false);
+                new Thread(new MySysVolThread()).start();
+
+                //  mAudioManager.setStreamVolume(AudioManager.STREAM_SYSTEM, progress, AudioManager.FLAG_SHOW_UI);
+            }
+
+            public void onStartTrackingTouch(SeekBar seekBar) {
+                // TODO Auto-generated method stub
+
+            }
+
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                // TODO Auto-generated method stub
+
+            }
+
+        };
+        sysvolSeekBar.setOnSeekBarChangeListener(sysseekBarChangeListener);
+
     }
 
+    //设置通话音量
     private void setVolum() {
 
-        maxVolume = mAudioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
+        maxVolume = mAudioManager.getStreamMaxVolume(AudioManager.STREAM_VOICE_CALL);
         volSeekBar.setMax(maxVolume);
-        currentVolume = mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
+        currentVolume = mAudioManager.getStreamVolume(AudioManager.STREAM_VOICE_CALL);
         volSeekBar.setProgress(currentVolume);
         mVolume.setText(currentVolume * 100 / maxVolume + " ");
+        //   MySysVolThread mySysVolThread =new MySysVolThread();
+//        Thread thread = new Thread(mySysVolThread);
+//        if (thread.isAlive()){
+//        thread.stop();}
+    }
 
+    //设置铃声音量
+    private void setSysVolum() {
+
+        sysMaxVolme = mAudioManager.getStreamMaxVolume(AudioManager.STREAM_RING);
+        sysvolSeekBar.setMax(sysMaxVolme);
+        sysCurrentVolme = mAudioManager.getStreamVolume(AudioManager.STREAM_RING);
+        if (sysCurrentVolme == 0) {
+            mutering.setBackground(getResources().getDrawable(R.drawable.mute_img));
+        } else {
+            mutering.setBackground(getResources().getDrawable(R.drawable.volume_img));
+        }
+        sysvolSeekBar.setProgress(sysCurrentVolme);
+        sVolume.setText(sysCurrentVolme * 100 / sysMaxVolme + " ");
+//        MyVolThread myVolThread =new MyVolThread();
+//        Thread thread =new Thread(myVolThread);
+//        if (thread.isAlive()){
+//            thread.stop();}
     }
 
     @Override
@@ -141,16 +214,53 @@ public class SetIpActivity extends Activity implements View.OnClickListener {
         switch (view.getId()) {
             case R.id.setip_sure:
                 saveSet();
+                break;
+            case R.id.set_back:
+                finish();
+                break;
+            case R.id.mutereing_img:
+
+                    if (isChanged) {
+                        mutering.setBackground(getResources().getDrawable(R.drawable.mute_img));
+                        mAudioManager.setStreamMute(AudioManager.STREAM_RING, true);
+
+                    } else {
+                        mutering.setBackground(getResources().getDrawable(R.drawable.volume_img));
+                        mAudioManager.setStreamMute(AudioManager.STREAM_RING, false);
+
+                    }
+
+                isChanged = !isChanged;
+
+
+                break;
         }
     }
 
-    class myVolThread implements Runnable {
+    class MyVolThread implements Runnable {
         public void run() {
             while (!Thread.currentThread().isInterrupted()) {
 
                 Message message = new Message();
                 message.what = PROGRESS_CHANGED;
                 SetIpActivity.this.myHandler.sendMessage(message);
+                try {
+                    Thread.sleep(100);
+
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                }
+            }
+        }
+    }
+
+    class MySysVolThread implements Runnable {
+        public void run() {
+            while (!Thread.currentThread().isInterrupted()) {
+
+                Message message = new Message();
+                message.what = PROGRESS_CHANGED;
+                SetIpActivity.this.mySysHandler.sendMessage(message);
                 try {
                     Thread.sleep(100);
 
