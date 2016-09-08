@@ -8,8 +8,8 @@
     <RelativeLayout
         android:id="@+id/set_title"
         android:layout_width="match_parent"
-        android:background="@color/gray_bg"
-        android:layout_height="50dp">
+        android:layout_height="50dp"
+        android:background="@color/gray_bg">
 
         <ImageView
             android:id="@+id/set_back"
@@ -287,6 +287,97 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/linearLayout4"
+                android:layout_width="fill_parent"
+                android:layout_height="40dp"
+                android:layout_below="@id/linearLayout2"
+                android:orientation="horizontal">
+
+
+                <TextView
+                    android:layout_width="120dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="15dp"
+                    android:gravity="center_vertical"
+                    android:text="Web服务器地址："
+                    android:textColor="@color/black" />
+
+                <com.zhang.myapplication.view.IPEditText
+                    android:id="@+id/custtom_edit"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:digits="1234567890."
+                    android:gravity="center"
+                    android:imeOptions="actionNone"
+                    android:singleLine="true"
+                    android:textSize="18sp"></com.zhang.myapplication.view.IPEditText>
+
+                <TextView
+                    android:layout_width="50dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="15dp"
+                    android:gravity="center_vertical"
+                    android:text="端口"
+                    android:textColor="@color/black" />
+
+                <EditText
+                    android:id="@+id/customport_edit"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/btn_pressed"
+                    android:digits="1234567890."
+                    android:gravity="center"
+                    android:singleLine="true"
+                    android:textSize="18sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="40dp"
+                android:layout_below="@id/linearLayout2"
+                android:orientation="horizontal">
+
+
+                <TextView
+                    android:layout_width="120dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="15dp"
+                    android:gravity="center_vertical"
+                    android:text="Web服务器地址："
+                    android:textColor="@color/black" />
+
+                <com.zhang.myapplication.view.IPEditText
+                    android:id="@+id/custtom_editwebserver"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:digits="1234567890."
+                    android:gravity="center"
+                    android:imeOptions="actionNone"
+                    android:singleLine="true"
+                    android:textSize="18sp"></com.zhang.myapplication.view.IPEditText>
+
+                <TextView
+                    android:layout_width="50dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="15dp"
+                    android:gravity="center_vertical"
+                    android:text="端口"
+                    android:textColor="@color/black" />
+
+                <EditText
+                    android:id="@+id/customport_mqedit"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/btn_pressed"
+                    android:digits="1234567890."
+                    android:gravity="center"
+                    android:singleLine="true"
+                    android:textSize="18sp" />
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
                 android:orientation="horizontal">
@@ -318,10 +409,12 @@
                     android:gravity="center"
                     android:text="通话音量设置"
                     android:textColor="@color/black" />
+
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/volume_img"/>
+                    android:background="@drawable/volume_img" />
+
                 <SeekBar
                     android:id="@+id/volume_seekbar"
                     android:layout_width="220dp"
@@ -339,6 +432,7 @@
                     android:textColor="@color/black" />
 
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
@@ -352,11 +446,13 @@
                     android:gravity="center"
                     android:text="铃声音量设置"
                     android:textColor="@color/black" />
+
                 <ImageView
                     android:id="@+id/mutereing_img"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/volume_img"/>
+                    android:background="@drawable/volume_img" />
+
                 <SeekBar
                     android:id="@+id/volume_sysseekbar"
                     android:layout_width="220dp"
@@ -375,13 +471,14 @@
 
 
             </LinearLayout>
+
             <TextView
                 android:id="@+id/setip_sure"
                 android:layout_width="100dp"
                 android:layout_height="50dp"
                 android:layout_gravity="right"
-                android:layout_marginRight="20dp"
                 android:layout_marginBottom="10dp"
+                android:layout_marginRight="20dp"
                 android:background="@drawable/btn_pressed"
                 android:gravity="center"
                 android:text="确认" />

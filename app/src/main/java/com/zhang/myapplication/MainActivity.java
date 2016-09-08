@@ -63,24 +63,35 @@ public class MainActivity extends Activity {
                         break;
                     case "123457":
                         IntentActivity(MainActivity.this, CallActivity.class);
+                        //  overridePendingTransition(R.anim.in_from_right, R.anim.out_to_left);
+                        //淡入淡出
+                        // overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
+                        //左边进入
+                        overridePendingTransition(R.anim.zoom_in,R.anim.zoom_out);
+                        //放大缩小
                         break;
                     case "123458":
                         IntentActivity(MainActivity.this, AboutActivity.class);
                         break;
                     case "123459":
                         IntentActivity(MainActivity.this, SpalshActivity.class);
+                        break;
+                    case "987654":
+                        IntentActivity(MainActivity.this, TestActivity.class);
+                        break;
                 }
 
             }
         });
         setContentView(pwdView);
 
-
     }
 
     private void IntentActivity(Context context, Class<?> cls) {
         Intent intent = new Intent(context, cls);
+        overridePendingTransition(R.anim.in_from_right, R.anim.out_to_left);
         startActivity(intent);
+        finish();
 
     }
 

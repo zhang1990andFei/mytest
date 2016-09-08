@@ -3,12 +3,9 @@ package com.zhang.myapplication;
 import android.app.Activity;
 import android.content.Context;
 import android.media.AudioManager;
-import android.media.Image;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.provider.ContactsContract;
-import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
@@ -17,8 +14,7 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.lang.reflect.Type;
-import java.security.KeyRep;
+import com.zhang.myapplication.view.IPEditText;
 
 public class SetIpActivity extends Activity implements View.OnClickListener {
     protected static final int PROGRESS_CHANGED = 0x101;
@@ -35,6 +31,7 @@ public class SetIpActivity extends Activity implements View.OnClickListener {
     private EditText sipserverport_input;
     private EditText mqserverport_input;
     private EditText webserverport_input;
+    private IPEditText ipEditText;
     private SharedPreferencesUtils sp;
     private String sipserver_string;
     private String mqserver_string;
@@ -82,6 +79,7 @@ public class SetIpActivity extends Activity implements View.OnClickListener {
         back.setOnClickListener(this);
         mutering = (ImageView) findViewById(R.id.mutereing_img);
         mutering.setOnClickListener(this);
+        ipEditText = (IPEditText) findViewById(R.id.custtom_edit);
         sipserverip_input = (EditText) findViewById(R.id.sipserverip_edit);
         mqserverip_input = (EditText) findViewById(R.id.mqserverip_edit);
         webserver_input = (EditText) findViewById(R.id.webserverip_edit);
@@ -220,15 +218,15 @@ public class SetIpActivity extends Activity implements View.OnClickListener {
                 break;
             case R.id.mutereing_img:
 
-                    if (isChanged) {
-                        mutering.setBackground(getResources().getDrawable(R.drawable.mute_img));
-                        mAudioManager.setStreamMute(AudioManager.STREAM_RING, true);
+                if (isChanged) {
+                    mutering.setBackground(getResources().getDrawable(R.drawable.mute_img));
+                    mAudioManager.setStreamMute(AudioManager.STREAM_RING, true);
 
-                    } else {
-                        mutering.setBackground(getResources().getDrawable(R.drawable.volume_img));
-                        mAudioManager.setStreamMute(AudioManager.STREAM_RING, false);
+                } else {
+                    mutering.setBackground(getResources().getDrawable(R.drawable.volume_img));
+                    mAudioManager.setStreamMute(AudioManager.STREAM_RING, false);
 
-                    }
+                }
 
                 isChanged = !isChanged;
 
