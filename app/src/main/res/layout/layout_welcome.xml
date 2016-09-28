@@ -1,36 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-<ImageView
-    android:layout_width="100dp"
-    android:layout_height="100dp"
-    android:layout_marginTop="20dp"
-    android:layout_gravity="center_horizontal"
-    android:src="@mipmap/ic_launcher"/>
-    <TextView
+
+    <ImageView
+        android:id="@+id/welcome_icon"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_gravity="center"
+        android:src="@mipmap/ic_launcher"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="100dp" />
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:text="超出你的想象"
-        android:textColor="#000000"
-        android:gravity="center"
-        android:textSize="24sp"
-        android:layout_gravity="center_horizontal"/>
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_marginTop="80dp"
-        android:text="Nangle南格"
-        android:textColor="@color/gray"
-        android:gravity="center"
-        android:layout_gravity="center_horizontal"/>
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:text="www.nangle.com"
-        android:textColor="@color/gray"
-        android:gravity="center"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/welcome_icon"
         android:layout_marginBottom="10dp"
-        android:layout_gravity="center_horizontal"/>
-</LinearLayout>
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center"
+            android:layout_marginTop="40dp"
+            android:text="超出你的想象"
+            android:textColor="#000000"
+            android:textSize="24sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="150dp"
+            android:gravity="center"
+            android:text="Nangle南格"
+            android:textColor="@color/gray" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginBottom="15dp"
+            android:gravity="center|top"
+            android:text="www.nangle.com"
+            android:textColor="@color/gray" />
+    </LinearLayout>
+</RelativeLayout>
