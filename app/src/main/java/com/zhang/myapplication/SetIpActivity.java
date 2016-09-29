@@ -3,9 +3,11 @@ package com.zhang.myapplication;
 import android.app.Activity;
 import android.content.Context;
 import android.media.AudioManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
@@ -14,6 +16,9 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.appindexing.Action;
+import com.google.android.gms.appindexing.AppIndex;
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.zhang.myapplication.view.IPEditText;
 
 public class SetIpActivity extends Activity implements View.OnClickListener {
@@ -25,9 +30,9 @@ public class SetIpActivity extends Activity implements View.OnClickListener {
     private AudioManager mAudioManager;
     private int maxVolume, currentVolume;
     private int sysMaxVolme, sysCurrentVolme;
-    private EditText sipserverip_input;
-    private EditText mqserverip_input;
-    private EditText webserver_input;
+    private IPEditText sipserverip_input;
+    private IPEditText mqserverip_input;
+    private IPEditText webserver_input;
     private EditText sipserverport_input;
     private EditText mqserverport_input;
     private EditText webserverport_input;
@@ -65,6 +70,11 @@ public class SetIpActivity extends Activity implements View.OnClickListener {
             }
         }
     };
+    /**
+     * ATTENTION: This was auto-generated to implement the App Indexing API.
+     * See https://g.co/AppIndexing/AndroidStudio for more information.
+     */
+    private GoogleApiClient client;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +82,9 @@ public class SetIpActivity extends Activity implements View.OnClickListener {
         setContentView(R.layout.activity_set_ip);
         initView();
 
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
 
     private void initView() {
@@ -79,16 +92,16 @@ public class SetIpActivity extends Activity implements View.OnClickListener {
         back.setOnClickListener(this);
         mutering = (ImageView) findViewById(R.id.mutereing_img);
         mutering.setOnClickListener(this);
-        ipEditText = (IPEditText) findViewById(R.id.custtom_edit);
-        sipserverip_input = (EditText) findViewById(R.id.sipserverip_edit);
-        mqserverip_input = (EditText) findViewById(R.id.mqserverip_edit);
-        webserver_input = (EditText) findViewById(R.id.webserverip_edit);
+//        ipEditText = (IPEditText) findViewById(R.id.custtom_edit);
+        sipserverip_input = (IPEditText) findViewById(R.id.sipserver_edit);
+        mqserverip_input = (IPEditText) findViewById(R.id.mqserver_edit);
+        webserver_input = (IPEditText) findViewById(R.id.webserver_edit);
         sipserverport_input = (EditText) findViewById(R.id.sipserverport_edit);
         mqserverport_input = (EditText) findViewById(R.id.mqserverport_edit);
         webserverport_input = (EditText) findViewById(R.id.webserverport_edit);
-        sipserverip_input.setInputType(EditorInfo.TYPE_CLASS_PHONE);
-        mqserverip_input.setInputType(EditorInfo.TYPE_CLASS_PHONE);
-        webserver_input.setInputType(EditorInfo.TYPE_CLASS_PHONE);
+//        sipserverip_input.setInputType(EditorInfo.TYPE_CLASS_PHONE);
+//        mqserverip_input.setInputType(EditorInfo.TYPE_CLASS_PHONE);
+//        webserver_input.setInputType(EditorInfo.TYPE_CLASS_PHONE);
         sipserverport_input.setInputType(EditorInfo.TYPE_CLASS_PHONE);
         mqserverport_input.setInputType(EditorInfo.TYPE_CLASS_PHONE);
         webserverport_input.setInputType(EditorInfo.TYPE_CLASS_PHONE);
@@ -96,15 +109,15 @@ public class SetIpActivity extends Activity implements View.OnClickListener {
         sure_btn.setOnClickListener(this);
         if (sp.getParam(this, "sipserver", "").toString() != null) {
             sipserver_string = sp.getParam(this, "sipserver", "").toString();
-            sipserverip_input.setText(sipserver_string);
+            sipserverip_input.setText(this, sipserver_string);
         }
         if (sp.getParam(this, "mqserver", "").toString() != null) {
             mqserver_string = sp.getParam(this, "mqserver", "").toString();
-            mqserverip_input.setText(mqserver_string);
+            mqserverip_input.setText(this, mqserver_string);
         }
         if (sp.getParam(this, "webserver", "").toString() != null) {
             webserver_string = sp.getParam(this, "webserver", "").toString();
-            webserver_input.setText(webserver_string);
+            webserver_input.setText(this, webserver_string);
         }
         if (sp.getParam(this, "sipserver_port", "").toString() != null) {
             sipserver_portstring = sp.getParam(this, "sipserver_port", "").toString();
@@ -211,7 +224,15 @@ public class SetIpActivity extends Activity implements View.OnClickListener {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.setip_sure:
-                saveSet();
+                //  saveSet();
+                Log.e("asd", sipserverport_input.getText().toString() + "");
+                if (!sipserverport_input.getText().toString().equals("")) {
+                    String[] strarray = sipserverport_input.getText().toString().split(".");
+                    for (int i = 0; i < strarray.length; i++) {
+                        Log.e("asd", strarray[i].toString());
+
+                    }
+                }
                 break;
             case R.id.set_back:
                 finish();
@@ -233,6 +254,46 @@ public class SetIpActivity extends Activity implements View.OnClickListener {
 
                 break;
         }
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        client.connect();
+        Action viewAction = Action.newAction(
+                Action.TYPE_VIEW, // TODO: choose an action type.
+                "SetIp Page", // TODO: Define a title for the content shown.
+                // TODO: If you have web page content that matches this app activity's content,
+                // make sure this auto-generated web page URL is correct.
+                // Otherwise, set the URL to null.
+                Uri.parse("http://host/path"),
+                // TODO: Make sure this auto-generated app URL is correct.
+                Uri.parse("android-app://com.zhang.myapplication/http/host/path")
+        );
+        AppIndex.AppIndexApi.start(client, viewAction);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        Action viewAction = Action.newAction(
+                Action.TYPE_VIEW, // TODO: choose an action type.
+                "SetIp Page", // TODO: Define a title for the content shown.
+                // TODO: If you have web page content that matches this app activity's content,
+                // make sure this auto-generated web page URL is correct.
+                // Otherwise, set the URL to null.
+                Uri.parse("http://host/path"),
+                // TODO: Make sure this auto-generated app URL is correct.
+                Uri.parse("android-app://com.zhang.myapplication/http/host/path")
+        );
+        AppIndex.AppIndexApi.end(client, viewAction);
+        client.disconnect();
     }
 
     class MyVolThread implements Runnable {
@@ -272,14 +333,15 @@ public class SetIpActivity extends Activity implements View.OnClickListener {
     /*
     保存设置ip地址
      */
+
     private void saveSet() {
-        sipserver_string = sipserverip_input.getText().toString();
-        mqserver_string = mqserverip_input.getText().toString();
-        webserver_string = webserver_input.getText().toString();
+        sipserver_string = sipserverip_input.getText(this).toString();
+        mqserver_string = mqserverip_input.getText(this).toString();
+        webserver_string = webserver_input.getText(this).toString();
         sipserver_portstring = sipserverport_input.getText().toString();
         mqserver_portstring = mqserverport_input.getText().toString();
         webserver_portstring = webserverport_input.getText().toString();
-        if (!sipserverip_input.getText().toString().equals("") & !mqserverip_input.getText().toString().equals("") & !webserver_input.getText().toString().equals("") & !sipserverport_input.getText().toString().equals("") & !mqserverport_input.getText().toString().equals("") & !webserverport_input.getText().toString().equals("")) {
+        if (!sipserverip_input.getText(this).toString().equals("") & !mqserverip_input.getText(this).toString().equals("") & !webserver_input.getText(this).toString().equals("") & !sipserverport_input.getText().toString().equals("") & !mqserverport_input.getText().toString().equals("") & !webserverport_input.getText().toString().equals("")) {
             sp.setParam(this, "sipserver", sipserver_string);
             sp.setParam(this, "mqserver", mqserver_string);
             sp.setParam(this, "webserver", webserver_string);

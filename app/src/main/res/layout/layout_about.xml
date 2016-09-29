@@ -22,7 +22,7 @@
                 android:layout_height="100dp"
                 android:layout_gravity="center"
                 android:layout_marginTop="50dp"
-                android:src="@mipmap/ic_launcher" />
+                android:src="@drawable/welcome_logo" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -63,6 +63,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
+                    android:background="@drawable/about_next"
                     android:layout_marginRight="15dp" />
             </RelativeLayout>
 
@@ -90,7 +91,8 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginRight="15dp" />
+                    android:layout_marginRight="15dp"
+                    android:background="@drawable/about_next" />
             </RelativeLayout>
 
             <View
@@ -175,9 +177,9 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
                 android:gravity="center"
                 android:padding="5dp"
-                android:layout_marginTop="20dp"
                 android:text="产品名称"
                 android:textColor="@color/gray"
                 android:textSize="18sp" />
