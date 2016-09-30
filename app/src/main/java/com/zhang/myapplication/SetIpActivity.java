@@ -224,9 +224,9 @@ public class SetIpActivity extends Activity implements View.OnClickListener {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.setip_sure:
-                //  saveSet();
-                Log.e("asd", sipserverport_input.getText().toString() + "");
-                if (!sipserverport_input.getText().toString().equals("")) {
+                saveSet();
+                Log.e("asd", sipserverip_input.getText(this).toString() + "");
+                if (!sipserverip_input.getText(this).toString().equals("")) {
                     String[] strarray = sipserverport_input.getText().toString().split(".");
                     for (int i = 0; i < strarray.length; i++) {
                         Log.e("asd", strarray[i].toString());

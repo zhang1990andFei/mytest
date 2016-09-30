@@ -169,13 +169,14 @@ public class IPEditText extends LinearLayout {
                  * 用户点击啊.时,下一个EditText获得焦点
                  */
                 if (s != null && s.length() > 0) {
-                    if (s.length() > 2 || s.toString().trim().contains(".")) {
-                        if (s.toString().trim().contains(".")) {
-                            mText3 = s.toString().substring(0, s.length() - 1);
-                            mThirdIP.setText(mText3);
-                        } else {
+           //         mText4 = s.toString().trim();
+                  //  if (s.length() > 2 || s.toString().trim().contains(".")) {
+                     //   if (s.toString().trim().contains(".")) {
+                     //       mText3 = s.toString().substring(0, s.length());
+                    //        mThirdIP.setText(mText3);
+                    //    } else {
                             mText3 = s.toString().trim();
-                        }
+                       // }
 
                         if (Integer.parseInt(mText3) > 255) {
                             Toast.makeText(context, "请输入合法的ip地址",
@@ -189,7 +190,8 @@ public class IPEditText extends LinearLayout {
 
                         mFourthIP.setFocusable(true);
                         mFourthIP.requestFocus();
-                    }
+                //    }
+
                 }
 
                 /**
