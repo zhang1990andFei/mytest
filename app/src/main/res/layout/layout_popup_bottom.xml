@@ -1,53 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#EEEEEE"
-    android:gravity="bottom">
+    android:gravity="bottom"
+    android:orientation="vertical">
 
-    <LinearLayout
-        android:id="@+id/linear_pass"
+
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_margin="5dp">
 
-        <RelativeLayout
-            android:layout_width="match_parent"
+        <!-- 取消按钮 -->
+        <ImageView
+            android:id="@+id/img_cancel"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp">
+            android:background="@drawable/icon_clean" />
 
-            <!-- 取消按钮 -->
-            <ImageView
-                android:id="@+id/img_cancel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/icon_clean" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:text="输入密码"
+            android:textColor="#898181"
+            android:textSize="20sp" />
+    </RelativeLayout>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:text="输入密码"
-                android:textColor="#898181"
-                android:textSize="20sp" />
-        </RelativeLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="#555555" />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:background="#555555" />
+    <!-- 6位密码框布局，需要一个圆角边框的shape作为layout的背景 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_gravity="center"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:layout_marginTop="10dp"
+        android:layout_weight="1"
+        android:orientation="horizontal">
 
-        <!-- 6位密码框布局，需要一个圆角边框的shape作为layout的背景 -->
         <LinearLayout
             android:layout_width="300dp"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
             android:layout_marginLeft="40dp"
             android:layout_marginRight="40dp"
-            android:layout_marginTop="10dp"
-            android:layout_gravity="center"
+            android:layout_weight="1"
             android:background="@drawable/shape_input_area"
             android:orientation="horizontal">
-
             <!-- inputType设置隐藏密码明文
                  textSize设置大一点，否则“点”太小了，不美观 -->
             <TextView
@@ -63,21 +70,177 @@
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
                 android:background="#999999" />
-
         </LinearLayout>
-
-
     </LinearLayout>
 
-    <!-- 输入键盘 -->
-    <GridView
-        android:id="@+id/gv_keybord"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/linear_pass"
-        android:layout_marginTop="10dp"
-        android:background="@android:color/black"
-        android:horizontalSpacing="0.5dp"
-        android:numColumns="3"
-        android:verticalSpacing="0.5dp" />
-</RelativeLayout>
+        android:layout_height="0dp"
+        android:layout_weight="2"
+        android:orientation="vertical">
+
+        <!--<GridView-->
+        <!--android:id="@+id/gv_keybord"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:background="@android:color/black"-->
+        <!--android:horizontalSpacing="0.5dp"-->
+        <!--android:numColumns="3"-->
+        <!--android:gravity="center_vertical"-->
+        <!--android:layout_gravity="center_vertical"-->
+        <!--android:verticalSpacing="0.5dp" />-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/btn_one"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/selector_gride"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="1"
+            android:textSize="25sp" />
+
+        <TextView
+            android:id="@+id/btn_two"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:background="@drawable/selector_gride"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="2"
+            android:textSize="25sp" />
+            <TextView
+                android:id="@+id/btn_three"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:background="@drawable/selector_gride"
+                android:gravity="center"
+                android:padding="10dp"
+                android:text="3"
+                android:textSize="25sp" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/btn_four"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/selector_gride"
+                android:gravity="center"
+                android:padding="10dp"
+                android:text="4"
+                android:textSize="25sp" />
+
+            <TextView
+                android:id="@+id/btn_five"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:background="@drawable/selector_gride"
+                android:gravity="center"
+                android:padding="10dp"
+                android:text="5"
+                android:textSize="25sp" />
+            <TextView
+                android:id="@+id/btn_six"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:background="@drawable/selector_gride"
+                android:gravity="center"
+                android:padding="10dp"
+                android:text="6"
+                android:textSize="25sp" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/btn_seven"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/selector_gride"
+                android:gravity="center"
+                android:padding="10dp"
+                android:text="7"
+                android:textSize="25sp" />
+
+            <TextView
+                android:id="@+id/btn_eight"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:background="@drawable/selector_gride"
+                android:gravity="center"
+                android:padding="10dp"
+                android:text="8"
+                android:textSize="25sp" />
+            <TextView
+                android:id="@+id/btn_nine"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:background="@drawable/selector_gride"
+                android:gravity="center"
+                android:padding="10dp"
+                android:text="9"
+                android:textSize="25sp" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/btn_cancel"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/selector_key_del"
+                android:gravity="center"
+                android:padding="10dp"
+                android:text="取消"
+                android:textSize="25sp" />
+
+            <TextView
+                android:id="@+id/btn_zero"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:background="@drawable/selector_gride"
+                android:gravity="center"
+                android:padding="10dp"
+                android:text="0"
+                android:textSize="25sp" />
+            <TextView
+                android:id="@+id/btn_sure"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:background="@drawable/selector_key_del"
+                android:gravity="center"
+                android:padding="10dp"
+                android:text="确认"
+                android:textSize="25sp" />
+        </LinearLayout>
+
+    </LinearLayout>
+</LinearLayout>

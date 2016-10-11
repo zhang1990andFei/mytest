@@ -8,8 +8,8 @@
         android:id="@+id/btn_keys"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="10dp"
+        android:background="@drawable/selector_gride"
         android:gravity="center"
-        android:textSize="25sp"
-        android:background="@drawable/selector_gride"/>
+        android:padding="10dp"
+        android:textSize="25sp" />
 </LinearLayout>

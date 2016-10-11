@@ -30,11 +30,12 @@ public class PasswordView extends RelativeLayout implements View.OnClickListener
     private MainActivity mainActivity;
     private String strPassword;     //输入的密码
     private TextView[] tvList;      //用数组保存6个TextView，为什么用数组？
+    private List<String> numList;     //用数组保存数值
     private List<String> list_pwd;                                //因为就6个输入框不会变了，用数组内存申请固定空间，比List省空间（自己认为）
     private GridView gridView;    //用GrideView布局键盘，其实并不是真正的键盘，只是模拟键盘的功能
     private ArrayList<Map<String, String>> valueList;    //有人可能有疑问，为何这里不用数组了？
     //因为要用Adapter中适配，用数组不能往adapter中填充
-
+    private TextView textOne, textTwo, textThree, textFour, textFive, textSix, textSeven, textEight, textNine, textZero, textCancel, textSure;
     private ImageView imgCancel;
     private TextView tvForget;
     private int currentIndex = 0;    //用于记录当前输入密码格位置
@@ -48,13 +49,45 @@ public class PasswordView extends RelativeLayout implements View.OnClickListener
         this.context = context;
         this.pass = pass;
         View view = View.inflate(context, R.layout.layout_popup_bottom, null);
+        initContorl(view);
+        //  gridView = (GridView) view.findViewById(R.id.gv_keybord);
+        //  setView();
+        //必须要，不然不显示控件
+        addView(view);
+    }
 
+    private void initContorl(final View view) {
         valueList = new ArrayList<Map<String, String>>();
         tvList = new TextView[6];
+        numList = new ArrayList<String>();
         list_pwd = new ArrayList<String>();
         imgCancel = (ImageView) view.findViewById(R.id.img_cancel);
         imgCancel.setOnClickListener(this);
         tvList[0] = (TextView) view.findViewById(R.id.tv_pass1);
+        textOne = (TextView) view.findViewById(R.id.btn_one);
+        textOne.setOnClickListener(this);
+        textTwo = (TextView) view.findViewById(R.id.btn_two);
+        textTwo.setOnClickListener(this);
+        textThree = (TextView) view.findViewById(R.id.btn_three);
+        textThree.setOnClickListener(this);
+        textFour = (TextView) view.findViewById(R.id.btn_four);
+        textFour.setOnClickListener(this);
+        textFive = (TextView) view.findViewById(R.id.btn_five);
+        textFive.setOnClickListener(this);
+        textSix = (TextView) view.findViewById(R.id.btn_six);
+        textSix.setOnClickListener(this);
+        textSeven = (TextView) view.findViewById(R.id.btn_seven);
+        textSeven.setOnClickListener(this);
+        textEight = (TextView) view.findViewById(R.id.btn_eight);
+        textEight.setOnClickListener(this);
+        textNine = (TextView) view.findViewById(R.id.btn_nine);
+        textNine.setOnClickListener(this);
+        textZero = (TextView) view.findViewById(R.id.btn_zero);
+        textZero.setOnClickListener(this);
+        textSure = (TextView) view.findViewById(R.id.btn_sure);
+        textSure.setOnClickListener(this);
+        textCancel = (TextView) view.findViewById(R.id.btn_cancel);
+        textCancel.setOnClickListener(this);
         tvList[0].setOnTouchListener(new OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -64,10 +97,8 @@ public class PasswordView extends RelativeLayout implements View.OnClickListener
                 Drawable drawable = tvList[0].getCompoundDrawables()[2];
                 if (drawable == null)
                     return false;
-
                 if (event.getAction() != MotionEvent.ACTION_UP)
                     return false;
-
                 //drawable.getIntrinsicWidth() 获取drawable资源图片呈现的宽度
                 if (event.getX() > tvList[0].getWidth() - tvList[0].getPaddingRight()
                         - drawable.getIntrinsicWidth()) {
@@ -89,12 +120,10 @@ public class PasswordView extends RelativeLayout implements View.OnClickListener
 //                   list_pwd = new HashMap<Integer, String>();
                 }
 
+
                 return false;
             }
         });
-        gridView = (GridView) view.findViewById(R.id.gv_keybord);
-        setView();
-        addView(view);      //必须要，不然不显示控件
     }
 
     @Override
@@ -104,7 +133,42 @@ public class PasswordView extends RelativeLayout implements View.OnClickListener
                 //context.startActivity(new Intent(context,MainActivity.class));
                 // mainActivity.finish();
                 ((Activity) context).finish();
-
+                break;
+            case R.id.btn_one:
+                setNum("1");
+                break;
+            case R.id.btn_two:
+                setNum("2");
+                break;
+            case R.id.btn_three:
+                setNum("3");
+                break;
+            case R.id.btn_four:
+                setNum("4");
+                break;
+            case R.id.btn_five:
+                setNum("5");
+                break;
+            case R.id.btn_six:
+                setNum("6");
+                break;
+            case R.id.btn_seven:
+                setNum("7");
+                break;
+            case R.id.btn_eight:
+                setNum("8");
+                break;
+            case R.id.btn_nine:
+                setNum("9");
+                break;
+            case R.id.btn_zero:
+                setNum("0");
+                break;
+            case R.id.btn_cancel:
+                removeNum();
+                break;
+            case R.id.btn_sure:
+                getPwd();
                 break;
 
         }
@@ -126,34 +190,33 @@ public class PasswordView extends RelativeLayout implements View.OnClickListener
             valueList.add(map);
         }
 
-        gridView.setAdapter(adapter);
-        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (position < 11 && position != 9) {    //点击0~9按钮
-                    if (currentIndex > -1) {      //判断输入位置————要小心数组越界
-                        ++currentIndex;
-                        list_pwd.add(valueList.get(position).get("name"));
-                        tvList[0].append(valueList.get(position).get("name"));
-                    }
-
-                } else {
-                    if (position == 11) {      //点击确认键
-                        if (currentIndex == 0) {      //判断是否删除完毕————要小心数组越界
-                            Toast.makeText(context, "请输入密码", Toast.LENGTH_SHORT).show();
-                        } else {
-                            setOnFinishInput();
-                        }
-                    } else if(position==10){
-
-                    }
-                    else if (position == 9) {
-                        tvList[0].setText("");
-                        list_pwd = new ArrayList<String>();
-                    }
-                }
-            }
-        });
+        // gridView.setAdapter(adapter);
+//        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                if (position < 11 && position != 9) {    //点击0~9按钮
+//                    if (currentIndex > -1) {      //判断输入位置————要小心数组越界
+//                        ++currentIndex;
+//                        list_pwd.add(valueList.get(position).get("name"));
+//                        tvList[0].append(valueList.get(position).get("name"));
+//                    }
+//
+//                } else {
+//                    if (position == 11) {      //点击确认键
+//                        if (currentIndex == 0) {      //判断是否删除完毕————要小心数组越界
+//                            Toast.makeText(context, "请输入密码", Toast.LENGTH_SHORT).show();
+//                        } else {
+//                            setOnFinishInput();
+//                        }
+//                    } else if (position == 10) {
+//
+//                    } else if (position == 9) {
+//                        tvList[0].setText("");
+//                        list_pwd = new ArrayList<String>();
+//                    }
+//                }
+        //        }
+        //    });
     }
 
     OnPasswordInputFinish pass;
@@ -182,51 +245,72 @@ public class PasswordView extends RelativeLayout implements View.OnClickListener
         return tvForget;
     }
 
-    //GrideView的适配器
-    BaseAdapter adapter = new BaseAdapter() {
-        @Override
-        public int getCount() {
-            return valueList.size();
-        }
-
-        @Override
-        public Object getItem(int position) {
-            return valueList.get(position);
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return position;
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            ViewHolder viewHolder;
-            if (convertView == null) {
-                convertView = View.inflate(context, R.layout.item_gride, null);
-                viewHolder = new ViewHolder();
-                viewHolder.btnKey = (TextView) convertView.findViewById(R.id.btn_keys);
-                convertView.setTag(viewHolder);
-            } else {
-                viewHolder = (ViewHolder) convertView.getTag();
-            }
-            viewHolder.btnKey.setText(valueList.get(position).get("name"));
-            if (position == 9) {
-                viewHolder.btnKey.setBackgroundResource(R.drawable.selector_key_del);
-
-            }
-            if (position == 11) {
-                viewHolder.btnKey.setBackgroundResource(R.drawable.selector_key_del);
-            }
-
-            return convertView;
-        }
-    };
+//    //GrideView的适配器
+//    BaseAdapter adapter = new BaseAdapter() {
+//        @Override
+//        public int getCount() {
+//            return valueList.size();
+//        }
+//
+//        @Override
+//        public Object getItem(int position) {
+//            return valueList.get(position);
+//        }
+//
+//        @Override
+//        public long getItemId(int position) {
+//            return position;
+//        }
+//
+//        @Override
+//        public View getView(int position, View convertView, ViewGroup parent) {
+//            ViewHolder viewHolder;
+//            if (convertView == null) {
+//                convertView = View.inflate(context, R.layout.item_gride, null);
+//                viewHolder = new ViewHolder();
+//                viewHolder.btnKey = (TextView) convertView.findViewById(R.id.btn_keys);
+//                convertView.setTag(viewHolder);
+//            } else {
+//                viewHolder = (ViewHolder) convertView.getTag();
+//            }
+//            viewHolder.btnKey.setText(valueList.get(position).get("name"));
+//            if (position == 9) {
+//                viewHolder.btnKey.setBackgroundResource(R.drawable.selector_key_del);
+//
+//            }
+//            if (position == 11) {
+//                viewHolder.btnKey.setBackgroundResource(R.drawable.selector_key_del);
+//            }
+//            return convertView;
+//        }
+//    };
 
     /**
      * 存放控件
      */
-    public final class ViewHolder {
-        public TextView btnKey;
+//    public final class ViewHolder {
+//        public TextView btnKey;
+//    }
+    public void setNum(String number) {
+        if (currentIndex > -1) {      //判断输入位置————要小心数组越界
+            ++currentIndex;
+            list_pwd.add(number);
+            strPassword = strPassword + list_pwd.get(list_pwd.size() - 1).toString().trim();
+            tvList[0].setText(strPassword);
+            Log.e("asd", strPassword);
+        }
+
+    }
+
+    public void removeNum() {
+        list_pwd.remove(list_pwd.size() - 1);
+        Log.e("asd", strPassword);
+    }
+
+    public void getPwd() {
+        for (int i = 0; i < list_pwd.size(); i++) {
+            strPassword = strPassword + list_pwd.get(i).toString().trim();
+        }
+        Log.e("asd", strPassword);
     }
 }
