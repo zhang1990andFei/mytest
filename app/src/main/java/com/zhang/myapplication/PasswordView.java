@@ -30,6 +30,7 @@ public class PasswordView extends RelativeLayout implements View.OnClickListener
     private MainActivity mainActivity;
     private String strPassword;     //输入的密码
     private TextView[] tvList;      //用数组保存6个TextView，为什么用数组？
+    private TextView passwordTextview;
     private List<String> numList;     //用数组保存数值
     private List<String> list_pwd;                                //因为就6个输入框不会变了，用数组内存申请固定空间，比List省空间（自己认为）
     private GridView gridView;    //用GrideView布局键盘，其实并不是真正的键盘，只是模拟键盘的功能
@@ -37,6 +38,7 @@ public class PasswordView extends RelativeLayout implements View.OnClickListener
     //因为要用Adapter中适配，用数组不能往adapter中填充
     private TextView textOne, textTwo, textThree, textFour, textFive, textSix, textSeven, textEight, textNine, textZero, textCancel, textSure;
     private ImageView imgCancel;
+    private ImageView delete_one;
     private TextView tvForget;
     private int currentIndex = 0;    //用于记录当前输入密码格位置
 
@@ -63,7 +65,7 @@ public class PasswordView extends RelativeLayout implements View.OnClickListener
         list_pwd = new ArrayList<String>();
         imgCancel = (ImageView) view.findViewById(R.id.img_cancel);
         imgCancel.setOnClickListener(this);
-        tvList[0] = (TextView) view.findViewById(R.id.tv_pass1);
+        passwordTextview = (TextView) view.findViewById(R.id.tv_password);
         textOne = (TextView) view.findViewById(R.id.btn_one);
         textOne.setOnClickListener(this);
         textTwo = (TextView) view.findViewById(R.id.btn_two);
@@ -88,42 +90,44 @@ public class PasswordView extends RelativeLayout implements View.OnClickListener
         textSure.setOnClickListener(this);
         textCancel = (TextView) view.findViewById(R.id.btn_cancel);
         textCancel.setOnClickListener(this);
-        tvList[0].setOnTouchListener(new OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                //getCompoundDrawables() 可以获取一个长度为4的数组，
-                //存放drawableLeft，Right，Top，Bottom四个图片资源对象
-                //index=2 表示的是 drawableRight 图片资源对象
-                Drawable drawable = tvList[0].getCompoundDrawables()[2];
-                if (drawable == null)
-                    return false;
-                if (event.getAction() != MotionEvent.ACTION_UP)
-                    return false;
-                //drawable.getIntrinsicWidth() 获取drawable资源图片呈现的宽度
-                if (event.getX() > tvList[0].getWidth() - tvList[0].getPaddingRight()
-                        - drawable.getIntrinsicWidth()) {
-                    //进入这表示图片被选中，可以处理相应的逻辑了
-                    //清除一位
-                    tvList[0].setText("");
-                    strPassword = "";
-                    if (currentIndex - 1 > -1) {
-                        list_pwd.remove(currentIndex - 1);
-                        currentIndex--;
-                        for (int i = 0; i < list_pwd.size(); i++) {
-                            strPassword += list_pwd.get(i).toString().trim();
-                        }
-                        tvList[0].setText(strPassword);
-                    }
-                    // 清除所有数据
-//                   tvList[0].setText("");
-                    //strPassword = "";
-//                   list_pwd = new HashMap<Integer, String>();
-                }
-
-
-                return false;
-            }
-        });
+        delete_one = (ImageView) view.findViewById(R.id.delete_one);
+        delete_one.setOnClickListener(this);
+////        passwordTextview.setOnTouchListener(new OnTouchListener() {
+////            @Override
+////            public boolean onTouch(View v, MotionEvent event) {
+////                //getCompoundDrawables() 可以获取一个长度为4的数组，
+////                //存放drawableLeft，Right，Top，Bottom四个图片资源对象
+////                //index=2 表示的是 drawableRight 图片资源对象
+////                Drawable drawable = passwordTextview.getCompoundDrawables()[2];
+////                if (drawable == null)
+////                    return false;
+////                if (event.getAction() != MotionEvent.ACTION_UP)
+////                    return false;
+////                //drawable.getIntrinsicWidth() 获取drawable资源图片呈现的宽度
+////                if (event.getX() > passwordTextview.getWidth() - passwordTextview.getPaddingRight()
+////                        - drawable.getIntrinsicWidth()) {
+////                    //进入这表示图片被选中，可以处理相应的逻辑了
+////                    //清除一位
+////                    passwordTextview.setText("");
+////                    strPassword = "";
+////                    if (currentIndex - 1 > -1) {
+////                        list_pwd.remove(currentIndex - 1);
+////                        currentIndex--;
+////                        for (int i = 0; i < list_pwd.size(); i++) {
+////                            strPassword += list_pwd.get(i).toString().trim();
+////                        }
+////                        tvList[0].setText(strPassword);
+////                    }
+////                    // 清除所有数据
+//////                   tvList[0].setText("");
+////                    //strPassword = "";
+//////                   list_pwd = new HashMap<Integer, String>();
+////                }
+////
+////
+////                return false;
+////            }
+//        });
     }
 
     @Override
@@ -165,12 +169,15 @@ public class PasswordView extends RelativeLayout implements View.OnClickListener
                 setNum("0");
                 break;
             case R.id.btn_cancel:
-                removeNum();
+                clearNum();
                 break;
             case R.id.btn_sure:
                 getPwd();
-                break;
 
+                break;
+            case R.id.delete_one:
+                removeNum();
+                break;
         }
     }
 
@@ -295,22 +302,62 @@ public class PasswordView extends RelativeLayout implements View.OnClickListener
         if (currentIndex > -1) {      //判断输入位置————要小心数组越界
             ++currentIndex;
             list_pwd.add(number);
-            strPassword = strPassword + list_pwd.get(list_pwd.size() - 1).toString().trim();
-            tvList[0].setText(strPassword);
-            Log.e("asd", strPassword);
+            Log.e("asd", "数组长度" + list_pwd.size());
+            if (strPassword != null) {
+                strPassword += list_pwd.get(list_pwd.size() - 1).toString().trim();
+                passwordTextview.setText(strPassword);
+                Log.e("asd", "添加后" + strPassword);
+            } else {
+                strPassword = list_pwd.get(list_pwd.size() - 1).toString().trim();
+                passwordTextview.setText(strPassword);
+            }
         }
-
     }
 
+    //移除一位
     public void removeNum() {
-        list_pwd.remove(list_pwd.size() - 1);
-        Log.e("asd", strPassword);
+        passwordTextview.setText("");
+        strPassword = "";
+        if (currentIndex - 1 > -1) {
+            list_pwd.remove(currentIndex - 1);
+            currentIndex--;
+            for (int i = 0; i < list_pwd.size(); i++) {
+                strPassword += list_pwd.get(i).toString().trim();
+            }
+            passwordTextview.setText(strPassword);
+        }
+        Log.e("asd", "删除后" + strPassword);
     }
 
+    //清空密码
+    public void clearNum() {
+        list_pwd.clear();
+        strPassword = "";
+        passwordTextview.setText("");
+        currentIndex = 0;
+    }
+
+    //获取密码
     public void getPwd() {
-        for (int i = 0; i < list_pwd.size(); i++) {
-            strPassword = strPassword + list_pwd.get(i).toString().trim();
+//        for (int i = 0; i < list_pwd.size(); i++) {
+//            strPassword += list_pwd.get(i).toString().trim();
+//
+//        }
+        if (strPassword != null ) {
+//            switch (strPassword){
+//
+//            }
+            Log.e("asd", "正确密码" + strPassword);
+            setOnFinishInput();
+            clearNum();
+            currentIndex = 0;
+
+
+        } else {
+            clearNum();
+            Toast.makeText(context, "请输入正确密码", Toast.LENGTH_LONG).show();
+            currentIndex = 0;
         }
-        Log.e("asd", strPassword);
+        Log.e("asd", "确定时" + strPassword);
     }
 }

@@ -37,7 +37,7 @@
     <!-- 6位密码框布局，需要一个圆角边框的shape作为layout的背景 -->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="260dp"
         android:layout_gravity="center"
         android:layout_marginLeft="40dp"
         android:layout_marginRight="40dp"
@@ -49,22 +49,29 @@
             android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:gravity="center"
             android:layout_marginLeft="40dp"
             android:layout_marginRight="40dp"
             android:layout_weight="1"
             android:background="@drawable/shape_input_area"
+            android:gravity="center"
             android:orientation="horizontal">
             <!-- inputType设置隐藏密码明文
                  textSize设置大一点，否则“点”太小了，不美观 -->
             <TextView
-                android:id="@+id/tv_pass1"
-                android:layout_width="match_parent"
+                android:id="@+id/tv_password"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:drawableRight="@drawable/icon_clean"
+                android:layout_weight="1"
                 android:gravity="center"
                 android:inputType="numberPassword"
                 android:textSize="32sp" />
+
+            <ImageView
+                android:id="@+id/delete_one"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/icon_clean" />
 
             <View
                 android:layout_width="1dp"
@@ -75,7 +82,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="340dp"
         android:layout_weight="2"
         android:orientation="vertical">
 
@@ -95,38 +102,40 @@
             android:layout_weight="1"
             android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/btn_one"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@drawable/selector_gride"
-            android:gravity="center"
-            android:padding="10dp"
-            android:text="1"
-            android:textSize="25sp" />
+            <TextView
+                android:id="@+id/btn_one"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/selector_gride"
+                android:gravity="center"
+                android:padding="10dp"
+                android:text="1"
+                android:textSize="25sp" />
 
-        <TextView
-            android:id="@+id/btn_two"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="match_parent"
-            android:background="@drawable/selector_gride"
-            android:gravity="center"
-            android:padding="10dp"
-            android:text="2"
-            android:textSize="25sp" />
+            <TextView
+                android:id="@+id/btn_two"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/selector_gride"
+                android:gravity="center"
+                android:padding="10dp"
+                android:text="2"
+                android:textSize="25sp" />
+
             <TextView
                 android:id="@+id/btn_three"
                 android:layout_width="0dp"
-                android:layout_weight="1"
                 android:layout_height="match_parent"
+                android:layout_weight="1"
                 android:background="@drawable/selector_gride"
                 android:gravity="center"
                 android:padding="10dp"
                 android:text="3"
                 android:textSize="25sp" />
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -147,24 +156,26 @@
             <TextView
                 android:id="@+id/btn_five"
                 android:layout_width="0dp"
-                android:layout_weight="1"
                 android:layout_height="match_parent"
+                android:layout_weight="1"
                 android:background="@drawable/selector_gride"
                 android:gravity="center"
                 android:padding="10dp"
                 android:text="5"
                 android:textSize="25sp" />
+
             <TextView
                 android:id="@+id/btn_six"
                 android:layout_width="0dp"
-                android:layout_weight="1"
                 android:layout_height="match_parent"
+                android:layout_weight="1"
                 android:background="@drawable/selector_gride"
                 android:gravity="center"
                 android:padding="10dp"
                 android:text="6"
                 android:textSize="25sp" />
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -185,24 +196,26 @@
             <TextView
                 android:id="@+id/btn_eight"
                 android:layout_width="0dp"
-                android:layout_weight="1"
                 android:layout_height="match_parent"
+                android:layout_weight="1"
                 android:background="@drawable/selector_gride"
                 android:gravity="center"
                 android:padding="10dp"
                 android:text="8"
                 android:textSize="25sp" />
+
             <TextView
                 android:id="@+id/btn_nine"
                 android:layout_width="0dp"
-                android:layout_weight="1"
                 android:layout_height="match_parent"
+                android:layout_weight="1"
                 android:background="@drawable/selector_gride"
                 android:gravity="center"
                 android:padding="10dp"
                 android:text="9"
                 android:textSize="25sp" />
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -223,18 +236,19 @@
             <TextView
                 android:id="@+id/btn_zero"
                 android:layout_width="0dp"
-                android:layout_weight="1"
                 android:layout_height="match_parent"
+                android:layout_weight="1"
                 android:background="@drawable/selector_gride"
                 android:gravity="center"
                 android:padding="10dp"
                 android:text="0"
                 android:textSize="25sp" />
+
             <TextView
                 android:id="@+id/btn_sure"
                 android:layout_width="0dp"
-                android:layout_weight="1"
                 android:layout_height="match_parent"
+                android:layout_weight="1"
                 android:background="@drawable/selector_key_del"
                 android:gravity="center"
                 android:padding="10dp"
